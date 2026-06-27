@@ -286,11 +286,13 @@
   .flip-face .ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--grad);
     background-size:200% 200%;font-size:1.05rem;animation:gradshift 6s linear infinite;flex-shrink:0;
     box-shadow:0 6px 18px rgba(108,140,255,.35)}
-  .flip-front p{color:var(--muted);font-size:.93rem;flex:1;margin:0;line-height:1.55;position:relative;z-index:1}
-  .flip-hint{font-size:.7rem;color:var(--accent);font-family:'JetBrains Mono';font-weight:700;letter-spacing:1.2px;
-    margin-top:14px;display:inline-flex;align-items:center;gap:6px;opacity:.78;text-transform:uppercase;
-    align-self:flex-start;position:relative;z-index:1}
-  .flip-hint .rot{display:inline-block;animation:hintRot 3s linear infinite}
+  .flip-front p{color:var(--muted);font-size:.94rem;flex:1;margin:0;line-height:1.6;position:relative;z-index:1}
+  /* Elegant flip indicator (top-right corner) — no ugly hint text */
+  .flip-indicator{position:absolute;top:14px;right:16px;font-size:1rem;color:var(--accent);font-weight:700;
+    opacity:.35;animation:hintRot 4.5s linear infinite;transition:opacity .35s,transform .35s,color .35s;
+    z-index:2;line-height:1;text-shadow:0 0 8px rgba(34,211,238,.25)}
+  .flip-card:hover .flip-indicator{opacity:.95;color:var(--accent);
+    text-shadow:0 0 18px rgba(34,211,238,.7)}
   @keyframes hintRot{to{transform:rotate(360deg)}}
   /* Back side enhanced */
   .back-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;position:relative;z-index:1}
@@ -574,9 +576,9 @@
     <div class="flip-card reveal">
       <div class="flip-inner">
         <div class="flip-face flip-front">
+          <span class="flip-indicator" aria-hidden="true">↻</span>
           <h3><span class="ic">🎯</span> What I do</h3>
           <p>Large-scale data migration · ETL pipeline engineering · data governance &amp; PII compliance · Python automation · production incident response · data quality frameworks.</p>
-          <span class="flip-hint"><span class="rot">↻</span> Hover to flip</span>
         </div>
         <div class="flip-face flip-back">
           <div class="back-head">
@@ -599,9 +601,9 @@
     <div class="flip-card reveal">
       <div class="flip-inner">
         <div class="flip-face flip-front">
+          <span class="flip-indicator" aria-hidden="true">↻</span>
           <h3><span class="ic">🏆</span> Recognition</h3>
           <p>2× EPAM Kata Winner (Gen-AI &amp; Architectural) · BAPDM Quarterly Quiz Champion · EngX Bootcamp Top Graduate · consistent client &amp; manager appreciation.</p>
-          <span class="flip-hint"><span class="rot">↻</span> Hover to flip</span>
         </div>
         <div class="flip-face flip-back">
           <div class="back-head">
@@ -624,9 +626,9 @@
     <div class="flip-card reveal">
       <div class="flip-inner">
         <div class="flip-face flip-front">
+          <span class="flip-indicator" aria-hidden="true">↻</span>
           <h3><span class="ic">🎓</span> Education</h3>
           <p>B.E. Computer Science — Big Data Analytics (in collaboration with IBM), Chandigarh University, 2020–2024.</p>
-          <span class="flip-hint"><span class="rot">↻</span> Hover to flip</span>
         </div>
         <div class="flip-face flip-back">
           <div class="back-head">
@@ -804,7 +806,7 @@
   <div class="eyebrow reveal" style="justify-content:center"><span class="num">06</span><span class="txt">Contact</span></div>
   <div class="status-pill reveal"><span class="dot"></span> Available now · Replying within 24 hours</div>
   <h2 class="reveal">Let's build something <span class="grad">great</span> together <span class="wave">👋</span></h2>
-  <p class="reveal">Open to Data Engineer opportunities at top product companies. Always happy to talk data platforms, pipelines, and scale at any time.</p>
+  <p class="reveal">Open to Data Engineer opportunities at top companies. Always happy to talk data platforms, pipelines, and scale at any time.</p>
   <div class="social reveal">
     <a class="primary" href="mailto:adityayadav8g@gmail.com">✉ Email Me Now →</a>
     <a href="https://www.linkedin.com/in/theadityayadav/" target="_blank" rel="noopener">in LinkedIn</a>
