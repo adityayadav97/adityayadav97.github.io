@@ -267,18 +267,20 @@
   }
   .flip-card.flipped .flip-inner{transform:rotateY(180deg);filter:drop-shadow(0 30px 50px rgba(108,140,255,.35))}
   .flip-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
-    padding:22px 22px 18px;border:1px solid var(--stroke);border-radius:20px;background:var(--glass);
-    backdrop-filter:blur(10px);display:flex;flex-direction:column;transition:border-color .35s,box-shadow .35s;
-    overflow:hidden}
+    padding:22px 22px 18px;border:1px solid var(--stroke);border-radius:20px;
+    background:linear-gradient(160deg,rgba(20,26,48,.96),rgba(13,17,36,.99));
+    display:flex;flex-direction:column;transition:border-color .35s,box-shadow .35s;
+    overflow:hidden;will-change:transform;-webkit-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}
+  .flip-front{-webkit-transform:translate3d(0,0,1px);transform:translate3d(0,0,1px)}
   /* Inner glow border on hover */
   .flip-face::before{content:"";position:absolute;inset:-1px;border-radius:20px;padding:1px;
     background:var(--grad);background-size:200% 200%;animation:gradshift 6s linear infinite;
     -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
     -webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:.4s;pointer-events:none}
   .flip-card:hover .flip-face::before,.flip-card.flipped .flip-face::before{opacity:1}
-  .flip-back{transform:rotateY(180deg);
-    background:linear-gradient(140deg,rgba(108,140,255,.12),rgba(155,108,255,.08) 50%,rgba(34,211,238,.08));
-    border-color:rgba(108,140,255,.3)}
+  .flip-back{-webkit-transform:rotateY(180deg) translate3d(0,0,1px);transform:rotateY(180deg) translate3d(0,0,1px);
+    background:linear-gradient(140deg,rgba(28,38,80,.98),rgba(45,30,75,.98) 50%,rgba(20,55,75,.98));
+    border-color:rgba(108,140,255,.4)}
   /* Decorative orb on back */
   .flip-back::after{content:"";position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;
     background:radial-gradient(closest-side,rgba(34,211,238,.25),transparent 70%);filter:blur(8px);pointer-events:none}
