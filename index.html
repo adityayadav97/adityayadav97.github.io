@@ -256,33 +256,56 @@
      transition:.25s;cursor:default}
   .chip:hover{color:var(--txt);border-color:var(--brand);background:rgba(108,140,255,.1);transform:translateY(-2px)}
 
-  /* ---- Flip cards (About) ---- */
+  /* ---- Flip cards (About) — smoother bounce + glow burst ---- */
   .flip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
-  .flip-card{perspective:1200px;min-height:260px;cursor:pointer}
+  .flip-card{perspective:1600px;min-height:260px;cursor:pointer}
   .flip-card .flip-inner{position:relative;width:100%;height:100%;min-height:260px;
-    transition:transform .85s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d}
-  .flip-card:hover .flip-inner,.flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+    transition:transform .95s cubic-bezier(.62,.04,.27,1.05),filter .9s;transform-style:preserve-3d}
+  /* Only auto-flip on real hover (mouse/trackpad). Touch devices use .flipped (tap). */
+  @media (hover:hover){
+    .flip-card:hover .flip-inner{transform:rotateY(180deg);filter:drop-shadow(0 30px 50px rgba(108,140,255,.35))}
+  }
+  .flip-card.flipped .flip-inner{transform:rotateY(180deg);filter:drop-shadow(0 30px 50px rgba(108,140,255,.35))}
   .flip-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
     padding:22px 22px 18px;border:1px solid var(--stroke);border-radius:20px;background:var(--glass);
-    backdrop-filter:blur(10px);display:flex;flex-direction:column;transition:border-color .35s,box-shadow .35s}
-  .flip-card:hover .flip-front,.flip-card:hover .flip-back{border-color:var(--brand);box-shadow:0 22px 50px rgba(108,140,255,.18)}
+    backdrop-filter:blur(10px);display:flex;flex-direction:column;transition:border-color .35s,box-shadow .35s;
+    overflow:hidden}
+  /* Inner glow border on hover */
+  .flip-face::before{content:"";position:absolute;inset:-1px;border-radius:20px;padding:1px;
+    background:var(--grad);background-size:200% 200%;animation:gradshift 6s linear infinite;
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:.4s;pointer-events:none}
+  .flip-card:hover .flip-face::before,.flip-card.flipped .flip-face::before{opacity:1}
   .flip-back{transform:rotateY(180deg);
-    background:linear-gradient(140deg,rgba(108,140,255,.1),rgba(155,108,255,.06) 50%,rgba(34,211,238,.06));
-    border-color:rgba(108,140,255,.25)}
-  .flip-face h3{font-size:1.04rem;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+    background:linear-gradient(140deg,rgba(108,140,255,.12),rgba(155,108,255,.08) 50%,rgba(34,211,238,.08));
+    border-color:rgba(108,140,255,.3)}
+  /* Decorative orb on back */
+  .flip-back::after{content:"";position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;
+    background:radial-gradient(closest-side,rgba(34,211,238,.25),transparent 70%);filter:blur(8px);pointer-events:none}
+  .flip-face h3{font-size:1.04rem;margin-bottom:10px;display:flex;align-items:center;gap:10px;position:relative;z-index:1}
   .flip-face .ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--grad);
-    background-size:200% 200%;font-size:1.05rem;animation:gradshift 6s linear infinite;flex-shrink:0}
-  .flip-front p{color:var(--muted);font-size:.93rem;flex:1;margin:0;line-height:1.55}
+    background-size:200% 200%;font-size:1.05rem;animation:gradshift 6s linear infinite;flex-shrink:0;
+    box-shadow:0 6px 18px rgba(108,140,255,.35)}
+  .flip-front p{color:var(--muted);font-size:.93rem;flex:1;margin:0;line-height:1.55;position:relative;z-index:1}
   .flip-hint{font-size:.7rem;color:var(--accent);font-family:'JetBrains Mono';font-weight:700;letter-spacing:1.2px;
-    margin-top:14px;display:inline-flex;align-items:center;gap:6px;opacity:.75;text-transform:uppercase;align-self:flex-start}
+    margin-top:14px;display:inline-flex;align-items:center;gap:6px;opacity:.78;text-transform:uppercase;
+    align-self:flex-start;position:relative;z-index:1}
   .flip-hint .rot{display:inline-block;animation:hintRot 3s linear infinite}
   @keyframes hintRot{to{transform:rotate(360deg)}}
-  .flip-back .back-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;flex:1;overflow:hidden}
+  /* Back side enhanced */
+  .back-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;position:relative;z-index:1}
+  .back-num{font-family:'JetBrains Mono';font-size:.62rem;color:var(--muted);letter-spacing:1.5px;font-weight:700;opacity:.7}
+  .back-stat{font-family:'JetBrains Mono';font-size:.72rem;color:var(--accent);padding:5px 10px;
+    background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.28);border-radius:8px;
+    display:inline-flex;align-items:center;gap:6px;margin-bottom:10px;font-weight:700;letter-spacing:.4px;
+    width:fit-content;position:relative;z-index:1;box-shadow:0 0 16px rgba(34,211,238,.15)}
+  .flip-back .back-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;flex:1;
+    position:relative;z-index:1}
   .flip-back .back-list li{position:relative;padding-left:18px;color:#cdd6ea;font-size:.84rem;line-height:1.5}
   .flip-back .back-list li::before{content:"▹";position:absolute;left:0;color:var(--accent);font-size:.95rem;font-weight:700}
-  .flip-back .back-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-  .flip-back .back-tags span{font-size:.7rem;padding:3px 9px;border-radius:6px;background:rgba(108,140,255,.14);
-    color:#aebbff;font-family:'JetBrains Mono'}
+  .flip-back .back-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;position:relative;z-index:1}
+  .flip-back .back-tags span{font-size:.68rem;padding:3px 9px;border-radius:6px;background:rgba(108,140,255,.16);
+    color:#aebbff;font-family:'JetBrains Mono';font-weight:600}
 
   /* Timeline */
   .timeline{position:relative;margin-top:6px;padding-left:30px}
@@ -324,8 +347,14 @@
 
   /* Certs + achievements */
   .cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
-  .cert{padding:18px 20px;display:flex;align-items:center;gap:14px;transition:.3s}
-  .cert:hover{transform:translateY(-5px) scale(1.02);border-color:var(--brand)}
+  .cert{padding:18px 44px 18px 20px;display:flex;align-items:center;gap:14px;transition:.3s;
+    text-decoration:none;color:inherit;position:relative;cursor:pointer}
+  .cert:hover{transform:translateY(-5px) scale(1.02);border-color:var(--brand);
+    box-shadow:0 14px 34px rgba(108,140,255,.22)}
+  .cert .ext{position:absolute;top:14px;right:14px;font-size:.9rem;color:var(--muted);opacity:.5;
+    transition:.3s;font-weight:700}
+  .cert:hover .ext{opacity:1;color:var(--accent);transform:translate(3px,-3px) scale(1.15);
+    text-shadow:0 0 12px rgba(34,211,238,.6)}
   .cert .cic{font-size:1.6rem;animation:floatY 4s ease-in-out infinite}
   @keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
   .cert b{font-size:.94rem;display:block}
@@ -340,17 +369,39 @@
   .ach b{font-size:1rem}
   .ach p{color:var(--muted);font-size:.84rem;margin-top:3px}
 
-  /* Contact */
-  .contact{text-align:center}
-  .contact h2{font-size:clamp(2rem,5vw,3.4rem);font-weight:700;letter-spacing:-1px}
-  .contact h2 .grad{background:var(--grad);background-size:200% 200%;-webkit-background-clip:text;background-clip:text;color:transparent;
-     animation:gradshift 6s linear infinite}
-  .contact p{color:var(--muted);max-width:520px;margin:12px auto 22px}
-  .social{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-  .social a{padding:13px 24px;border-radius:12px;border:1px solid var(--stroke);background:var(--glass);
-     font-weight:600;font-size:.9rem;transition:.25s;display:inline-flex;gap:9px;align-items:center}
-  .social a:hover{border-color:var(--brand);transform:translateY(-4px) scale(1.04);background:rgba(108,140,255,.1);
-     box-shadow:0 10px 30px rgba(108,140,255,.25)}
+  /* Contact (bigger, glowing, inviting) */
+  .contact{text-align:center;position:relative;overflow:hidden}
+  .contact::before{content:"";position:absolute;top:50%;left:50%;width:80%;max-width:780px;height:380px;
+    transform:translate(-50%,-50%);border-radius:50%;
+    background:radial-gradient(closest-side,rgba(108,140,255,.22),rgba(155,108,255,.1) 45%,transparent 70%);
+    filter:blur(28px);animation:contactGlow 6s ease-in-out infinite;z-index:-1;pointer-events:none}
+  @keyframes contactGlow{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.7}
+    50%{transform:translate(-50%,-50%) scale(1.08);opacity:1}}
+  .contact .status-pill{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;border-radius:999px;
+    border:1px solid rgba(52,211,153,.35);background:rgba(52,211,153,.08);font-size:.8rem;color:#34d399;
+    font-weight:700;letter-spacing:.5px;margin-bottom:20px;text-transform:uppercase;
+    box-shadow:0 0 22px rgba(52,211,153,.15)}
+  .contact h2{font-size:clamp(2.4rem,6vw,4.5rem);font-weight:700;letter-spacing:-1.5px;line-height:1.05;
+    animation:contactPulse 5s ease-in-out infinite}
+  @keyframes contactPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.015)}}
+  .contact h2 .grad{background:var(--grad);background-size:200% 200%;-webkit-background-clip:text;background-clip:text;
+     color:transparent;animation:gradshift 6s linear infinite}
+  .contact h2 .wave{display:inline-block;transform-origin:70% 70%;animation:waveHand 2.8s ease-in-out infinite;margin-left:8px}
+  @keyframes waveHand{0%,60%,100%{transform:rotate(0)}10%,30%,50%{transform:rotate(-18deg)}20%,40%{transform:rotate(14deg)}}
+  .contact p{color:var(--muted);max-width:540px;margin:16px auto 28px;font-size:1.02rem;line-height:1.6}
+  .social{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+  .social a{padding:16px 30px;border-radius:14px;border:1px solid var(--stroke);background:var(--glass);
+     font-weight:600;font-size:1rem;transition:.3s;display:inline-flex;gap:10px;align-items:center;
+     position:relative;overflow:hidden}
+  .social a::before{content:"";position:absolute;top:-50%;left:-60%;width:40%;height:200%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+    transform:skewX(-20deg);transition:.7s}
+  .social a:hover{border-color:var(--brand);transform:translateY(-6px) scale(1.06);background:rgba(108,140,255,.12);
+     box-shadow:0 16px 40px rgba(108,140,255,.32)}
+  .social a:hover::before{left:160%}
+  .social a.primary{background:var(--grad);background-size:200% 200%;border:0;color:#fff;animation:gradshift 6s linear infinite;
+    box-shadow:0 10px 28px rgba(108,140,255,.4)}
+  .social a.primary:hover{box-shadow:0 18px 45px rgba(108,140,255,.55)}
   footer{padding:24px 7vw;text-align:center;color:var(--muted);font-size:.84rem;border-top:1px solid var(--stroke)}
   footer .grad{background:var(--grad);background-size:200% 200%;-webkit-background-clip:text;background-clip:text;color:transparent;
      animation:gradshift 6s linear infinite;font-weight:700}
@@ -368,19 +419,63 @@
   #toTop.show{opacity:1;pointer-events:auto}
   #toTop:hover{transform:translateY(-4px) scale(1.08)}
 
-  /* Responsive */
+  /* Responsive — tablet */
   @media(max-width:820px){
+    nav{padding:14px 6vw}
+    nav.scrolled{padding:11px 6vw}
+    .logo{font-size:1.3rem;padding:4px 8px}
+    .logo b{font-size:1.5rem}
     .navlinks,.nav-cta{display:none}
-    .burger{display:block}
-    .stats{grid-template-columns:repeat(2,1fr)}
+    .burger{display:block;color:var(--txt);padding:6px;border-radius:8px}
+    .stats{grid-template-columns:repeat(2,1fr);gap:12px}
     section{padding:42px 6vw}
-    .hero{padding-top:86px}
-    .eyebrow{font-size:.9rem;letter-spacing:2px}
+    .hero{padding:96px 6vw 40px}
+    .hero h1{letter-spacing:-1.6px}
+    .eyebrow{font-size:.92rem;letter-spacing:2.2px;gap:10px}
+    .eyebrow .num{font-size:.72rem;padding:4px 8px}
     .navlinks.open{display:flex;position:absolute;top:60px;left:0;right:0;flex-direction:column;
-       padding:18px 6vw;background:rgba(6,8,21,.97);border-bottom:1px solid var(--stroke)}
+       padding:18px 6vw;background:rgba(6,8,21,.97);border-bottom:1px solid var(--stroke);gap:18px;font-size:1.05rem}
+    .navlinks.open a{padding:8px 0}
     #spotlight,.orbit{display:none}
     .proj{transform:none!important}
     .trusted .clients{gap:16px}
+    .marquee-track{animation-duration:28s}
+    .flip-card,.flip-card .flip-inner{min-height:250px}
+    .flip-face{padding:20px 18px 16px}
+    .cert{padding:16px 40px 16px 18px}
+    .timeline{padding-left:24px}
+    .tl-item::before{left:-24px;width:14px;height:14px}
+    .tl-item h3{font-size:1.08rem}
+    .social a{padding:14px 22px;font-size:.95rem}
+    .contact h2{letter-spacing:-1px}
+    .contact::before{height:280px}
+  }
+  /* Responsive — phones */
+  @media(max-width:500px){
+    section{padding:38px 5vw}
+    .hero{padding:90px 5vw 30px}
+    .hero h1{font-size:clamp(2.3rem,11vw,3.4rem)}
+    .stat{padding:18px 12px}
+    .stat .num{font-size:1.75rem}
+    .stat .lbl{font-size:.74rem}
+    .badge-avail{font-size:.76rem;padding:5px 12px}
+    .pre-name{font-size:.95rem}
+    .hero .role{font-size:1.05rem}
+    .hero-cta{gap:10px}
+    .btn{padding:11px 20px;font-size:.9rem}
+    .trusted{gap:12px;margin-top:20px}
+    .trusted .clients span{font-size:.95rem}
+    .marquee{margin-top:20px}
+    .flip-grid,.proj-grid{gap:14px}
+    .flip-card,.flip-card .flip-inner{min-height:270px}
+    .proj{padding:22px}
+    .cert{padding:14px 38px 14px 16px}
+    .cert .cic{font-size:1.4rem}
+    .ach{padding:18px}
+    .social{gap:10px}
+    .social a{padding:13px 18px;font-size:.88rem;flex:1 1 auto;justify-content:center;min-width:140px}
+    .contact p{font-size:.95rem;margin-top:14px}
+    .status-pill{font-size:.72rem;padding:6px 12px;margin-bottom:14px}
   }
 </style>
 </head>
@@ -480,17 +575,21 @@
       <div class="flip-inner">
         <div class="flip-face flip-front">
           <h3><span class="ic">🎯</span> What I do</h3>
-          <p>Engineering reliable, governed data platforms at enterprise scale — from raw ingestion to production-grade analytics.</p>
+          <p>Large-scale data migration · ETL pipeline engineering · data governance &amp; PII compliance · Python automation · production incident response · data quality frameworks.</p>
           <span class="flip-hint"><span class="rot">↻</span> Hover to flip</span>
         </div>
         <div class="flip-face flip-back">
-          <h3><span class="ic">🎯</span> Day-to-day</h3>
+          <div class="back-head">
+            <h3><span class="ic">🎯</span> Day-to-Day</h3>
+            <span class="back-num">01 / 03</span>
+          </div>
+          <div class="back-stat">⚡ 200+ tables · 6+ pipelines · 0 data loss</div>
           <ul class="back-list">
             <li>Spearhead Spark/Scala ETL migrations across hundreds of tables</li>
             <li>Drive enterprise data governance &amp; PII compliance</li>
-            <li>Architect Python automation that saves weeks of manual work</li>
+            <li>Architect Python automation saving weeks of manual work</li>
             <li>Resolve P1 production incidents with zero downtime</li>
-            <li>Champion data quality frameworks with built-in validation</li>
+            <li>Champion data quality &amp; validation frameworks</li>
           </ul>
           <div class="back-tags"><span>ETL</span><span>Migration</span><span>Governance</span><span>Automation</span></div>
         </div>
@@ -501,18 +600,23 @@
       <div class="flip-inner">
         <div class="flip-face flip-front">
           <h3><span class="ic">🏆</span> Recognition</h3>
-          <p>Wins and shout-outs from EPAM communities, clients, and leadership — technical &amp; collaborative.</p>
+          <p>2× EPAM Kata Winner (Gen-AI &amp; Architectural) · BAPDM Quarterly Quiz Champion · EngX Bootcamp Top Graduate · consistent client &amp; manager appreciation.</p>
           <span class="flip-hint"><span class="rot">↻</span> Hover to flip</span>
         </div>
         <div class="flip-face flip-back">
-          <h3><span class="ic">🏆</span> Highlights</h3>
+          <div class="back-head">
+            <h3><span class="ic">🏆</span> Highlights</h3>
+            <span class="back-num">02 / 03</span>
+          </div>
+          <div class="back-stat">🏅 113 badges · 2× Kata Winner</div>
           <ul class="back-list">
             <li>🥇 Generative AI Kata — Winner (EPAM.AI · Jun 2026)</li>
             <li>🏛️ Architectural Kata — Winner (EngX India · Apr 2026)</li>
             <li>🏆 BAPDM Quarterly Quiz Champion (12 quizzes)</li>
-            <li>⭐ EngX Bootcamp Top Graduate (90%+)</li>
-            <li>💬 Repeated client &amp; manager appreciations</li>
+            <li>⭐ EngX Bootcamp Top Graduate (90%+ score)</li>
+            <li>💬 Recurring client &amp; manager appreciations</li>
           </ul>
+          <div class="back-tags"><span>Leadership</span><span>Excellence</span><span>Collaboration</span></div>
         </div>
       </div>
     </div>
@@ -521,18 +625,23 @@
       <div class="flip-inner">
         <div class="flip-face flip-front">
           <h3><span class="ic">🎓</span> Education</h3>
-          <p>B.E. Computer Science with a Big Data Analytics specialization — strong fundamentals plus hands-on projects.</p>
+          <p>B.E. Computer Science — Big Data Analytics (in collaboration with IBM), Chandigarh University, 2020–2024.</p>
           <span class="flip-hint"><span class="rot">↻</span> Hover to flip</span>
         </div>
         <div class="flip-face flip-back">
-          <h3><span class="ic">🎓</span> Academic Profile</h3>
+          <div class="back-head">
+            <h3><span class="ic">🎓</span> Academic Profile</h3>
+            <span class="back-num">03 / 03</span>
+          </div>
+          <div class="back-stat">🎓 B.E. CSE · IBM-collab program</div>
           <ul class="back-list">
-            <li>Chandigarh University · 2020–2024</li>
+            <li>Chandigarh University · 2020 – 2024</li>
             <li>Big Data Analytics specialization (with IBM)</li>
             <li>Core: DSA, DBMS, Distributed Systems, OS</li>
             <li>Hands-on: Hadoop, Spark, ML, NLP, Cloud</li>
-            <li>Project-driven, applied curriculum</li>
+            <li>Project-driven, industry-aligned curriculum</li>
           </ul>
+          <div class="back-tags"><span>CSE</span><span>Big Data</span><span>IBM</span></div>
         </div>
       </div>
     </div>
@@ -663,12 +772,24 @@
   <h2 class="sec reveal">Validated &amp; <span class="shimmer">recognized</span></h2>
   <p class="sec-sub reveal">7 active certifications across data, cloud and AI — plus competitive wins at EPAM.</p>
   <div class="cert-grid">
-    <div class="glass cert reveal"><span class="cic">🧱</span><div><b>Databricks Data Engineer</b><small>Associate · 2026</small></div></div>
-    <div class="glass cert reveal"><span class="cic">🤖</span><div><b>Databricks ML</b><small>Associate · 2026</small></div></div>
-    <div class="glass cert reveal"><span class="cic">🧠</span><div><b>Claude Certified Architect</b><small>Anthropic · 2026</small></div></div>
-    <div class="glass cert reveal"><span class="cic">☁️</span><div><b>AWS Cloud Practitioner</b><small>Amazon · 2025</small></div></div>
-    <div class="glass cert reveal"><span class="cic">🔷</span><div><b>Azure Fundamentals</b><small>AZ-900 · 2025</small></div></div>
-    <div class="glass cert reveal"><span class="cic">🔶</span><div><b>Azure AI Fundamentals</b><small>AI-900 · 2025</small></div></div>
+    <a class="glass cert reveal" href="https://credentials.databricks.com/606adea5-518e-41f4-beb5-d929ce035e10" target="_blank" rel="noopener" aria-label="View Databricks Data Engineer credential">
+      <span class="cic">🧱</span><div><b>Databricks Data Engineer</b><small>Associate · 2026</small></div><span class="ext">↗</span>
+    </a>
+    <a class="glass cert reveal" href="https://credentials.databricks.com/b47db26e-1464-4a26-bba3-aaf98bc87126" target="_blank" rel="noopener" aria-label="View Databricks ML credential">
+      <span class="cic">🤖</span><div><b>Databricks ML</b><small>Associate · 2026</small></div><span class="ext">↗</span>
+    </a>
+    <a class="glass cert reveal" href="https://verify.skilljar.com/c/zdevrb9toz3j" target="_blank" rel="noopener" aria-label="View Claude Certified Architect credential">
+      <span class="cic">🧠</span><div><b>Claude Certified Architect</b><small>Anthropic · 2026</small></div><span class="ext">↗</span>
+    </a>
+    <a class="glass cert reveal" href="https://www.credly.com/badges/4e01b90f-ab6b-4937-a70b-2f5a6be5b97c/linked_in_profile" target="_blank" rel="noopener" aria-label="View AWS Cloud Practitioner credential">
+      <span class="cic">☁️</span><div><b>AWS Cloud Practitioner</b><small>Amazon · 2025</small></div><span class="ext">↗</span>
+    </a>
+    <a class="glass cert reveal" href="https://learn.microsoft.com/api/credentials/share/en-us/Adityayadav-8366/C5F971221032C906?sharingId=E85349BF47D2DA66" target="_blank" rel="noopener" aria-label="View Azure Fundamentals credential">
+      <span class="cic">🔷</span><div><b>Azure Fundamentals</b><small>AZ-900 · 2025</small></div><span class="ext">↗</span>
+    </a>
+    <a class="glass cert reveal" href="https://learn.microsoft.com/en-us/users/adityayadav-8366/credentials/74674ff030b304ce" target="_blank" rel="noopener" aria-label="View Azure AI Fundamentals credential">
+      <span class="cic">🔶</span><div><b>Azure AI Fundamentals</b><small>AI-900 · 2025</small></div><span class="ext">↗</span>
+    </a>
   </div>
   <div class="ach-grid">
     <div class="glass ach reveal"><div class="at">🥇</div><b>Generative AI Kata — Winner</b><p>EPAM.AI · Jun 2026</p></div>
@@ -681,10 +802,11 @@
 <!-- CONTACT -->
 <section id="contact" class="contact">
   <div class="eyebrow reveal" style="justify-content:center"><span class="num">06</span><span class="txt">Contact</span></div>
-  <h2 class="reveal">Let's build something <span class="grad">great</span> together</h2>
-  <p class="reveal">Open to Data Engineer opportunities at top product companies. Always happy to talk data platforms, pipelines, and scale.</p>
+  <div class="status-pill reveal"><span class="dot"></span> Available now · Replying within 24 hours</div>
+  <h2 class="reveal">Let's build something <span class="grad">great</span> together <span class="wave">👋</span></h2>
+  <p class="reveal">Open to Data Engineer opportunities at top product companies. Always happy to talk data platforms, pipelines, and scale at any time.</p>
   <div class="social reveal">
-    <a href="mailto:adityayadav8g@gmail.com">✉ Email</a>
+    <a class="primary" href="mailto:adityayadav8g@gmail.com">✉ Email Me Now →</a>
     <a href="https://www.linkedin.com/in/theadityayadav/" target="_blank" rel="noopener">in LinkedIn</a>
     <a href="https://github.com/adityayadav97" target="_blank" rel="noopener">⌥ GitHub</a>
   </div>
