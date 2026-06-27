@@ -256,6 +256,34 @@
      transition:.25s;cursor:default}
   .chip:hover{color:var(--txt);border-color:var(--brand);background:rgba(108,140,255,.1);transform:translateY(-2px)}
 
+  /* ---- Flip cards (About) ---- */
+  .flip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+  .flip-card{perspective:1200px;min-height:260px;cursor:pointer}
+  .flip-card .flip-inner{position:relative;width:100%;height:100%;min-height:260px;
+    transition:transform .85s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d}
+  .flip-card:hover .flip-inner,.flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+  .flip-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+    padding:22px 22px 18px;border:1px solid var(--stroke);border-radius:20px;background:var(--glass);
+    backdrop-filter:blur(10px);display:flex;flex-direction:column;transition:border-color .35s,box-shadow .35s}
+  .flip-card:hover .flip-front,.flip-card:hover .flip-back{border-color:var(--brand);box-shadow:0 22px 50px rgba(108,140,255,.18)}
+  .flip-back{transform:rotateY(180deg);
+    background:linear-gradient(140deg,rgba(108,140,255,.1),rgba(155,108,255,.06) 50%,rgba(34,211,238,.06));
+    border-color:rgba(108,140,255,.25)}
+  .flip-face h3{font-size:1.04rem;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+  .flip-face .ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:var(--grad);
+    background-size:200% 200%;font-size:1.05rem;animation:gradshift 6s linear infinite;flex-shrink:0}
+  .flip-front p{color:var(--muted);font-size:.93rem;flex:1;margin:0;line-height:1.55}
+  .flip-hint{font-size:.7rem;color:var(--accent);font-family:'JetBrains Mono';font-weight:700;letter-spacing:1.2px;
+    margin-top:14px;display:inline-flex;align-items:center;gap:6px;opacity:.75;text-transform:uppercase;align-self:flex-start}
+  .flip-hint .rot{display:inline-block;animation:hintRot 3s linear infinite}
+  @keyframes hintRot{to{transform:rotate(360deg)}}
+  .flip-back .back-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;flex:1;overflow:hidden}
+  .flip-back .back-list li{position:relative;padding-left:18px;color:#cdd6ea;font-size:.84rem;line-height:1.5}
+  .flip-back .back-list li::before{content:"▹";position:absolute;left:0;color:var(--accent);font-size:.95rem;font-weight:700}
+  .flip-back .back-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .flip-back .back-tags span{font-size:.7rem;padding:3px 9px;border-radius:6px;background:rgba(108,140,255,.14);
+    color:#aebbff;font-family:'JetBrains Mono'}
+
   /* Timeline */
   .timeline{position:relative;margin-top:6px;padding-left:30px}
   .timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;
@@ -446,19 +474,69 @@
     to the cloud with <b>zero data loss</b>, fix data governance at enterprise scale, and automate the boring
     parts with Python — turning messy legacy systems into clean, governed, fast data platforms.
   </p>
-  <div class="skill-grid">
-    <div class="glass skill-card reveal tilt">
-      <h3><span class="ic">🎯</span> What I do</h3>
-      <p style="color:var(--muted);font-size:.92rem">Large-scale data migration · ETL pipeline engineering · data governance &amp; PII compliance · Python automation · production incident response · data quality frameworks.</p>
+  <div class="flip-grid">
+
+    <div class="flip-card reveal">
+      <div class="flip-inner">
+        <div class="flip-face flip-front">
+          <h3><span class="ic">🎯</span> What I do</h3>
+          <p>Engineering reliable, governed data platforms at enterprise scale — from raw ingestion to production-grade analytics.</p>
+          <span class="flip-hint"><span class="rot">↻</span> Hover to flip</span>
+        </div>
+        <div class="flip-face flip-back">
+          <h3><span class="ic">🎯</span> Day-to-day</h3>
+          <ul class="back-list">
+            <li>Spearhead Spark/Scala ETL migrations across hundreds of tables</li>
+            <li>Drive enterprise data governance &amp; PII compliance</li>
+            <li>Architect Python automation that saves weeks of manual work</li>
+            <li>Resolve P1 production incidents with zero downtime</li>
+            <li>Champion data quality frameworks with built-in validation</li>
+          </ul>
+          <div class="back-tags"><span>ETL</span><span>Migration</span><span>Governance</span><span>Automation</span></div>
+        </div>
+      </div>
     </div>
-    <div class="glass skill-card reveal tilt">
-      <h3><span class="ic">🏆</span> Recognition</h3>
-      <p style="color:var(--muted);font-size:.92rem">2× EPAM Kata Winner (Gen-AI &amp; Architectural) · BAPDM Quarterly Quiz Champion · EngX Bootcamp Top Graduate · consistent client &amp; manager appreciation.</p>
+
+    <div class="flip-card reveal">
+      <div class="flip-inner">
+        <div class="flip-face flip-front">
+          <h3><span class="ic">🏆</span> Recognition</h3>
+          <p>Wins and shout-outs from EPAM communities, clients, and leadership — technical &amp; collaborative.</p>
+          <span class="flip-hint"><span class="rot">↻</span> Hover to flip</span>
+        </div>
+        <div class="flip-face flip-back">
+          <h3><span class="ic">🏆</span> Highlights</h3>
+          <ul class="back-list">
+            <li>🥇 Generative AI Kata — Winner (EPAM.AI · Jun 2026)</li>
+            <li>🏛️ Architectural Kata — Winner (EngX India · Apr 2026)</li>
+            <li>🏆 BAPDM Quarterly Quiz Champion (12 quizzes)</li>
+            <li>⭐ EngX Bootcamp Top Graduate (90%+)</li>
+            <li>💬 Repeated client &amp; manager appreciations</li>
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class="glass skill-card reveal tilt">
-      <h3><span class="ic">🎓</span> Education</h3>
-      <p style="color:var(--muted);font-size:.92rem">B.E. Computer Science — Big Data Analytics (in collaboration with IBM), Chandigarh University, 2020–2024.</p>
+
+    <div class="flip-card reveal">
+      <div class="flip-inner">
+        <div class="flip-face flip-front">
+          <h3><span class="ic">🎓</span> Education</h3>
+          <p>B.E. Computer Science with a Big Data Analytics specialization — strong fundamentals plus hands-on projects.</p>
+          <span class="flip-hint"><span class="rot">↻</span> Hover to flip</span>
+        </div>
+        <div class="flip-face flip-back">
+          <h3><span class="ic">🎓</span> Academic Profile</h3>
+          <ul class="back-list">
+            <li>Chandigarh University · 2020–2024</li>
+            <li>Big Data Analytics specialization (with IBM)</li>
+            <li>Core: DSA, DBMS, Distributed Systems, OS</li>
+            <li>Hands-on: Hadoop, Spark, ML, NLP, Cloud</li>
+            <li>Project-driven, applied curriculum</li>
+          </ul>
+        </div>
+      </div>
     </div>
+
   </div>
 </section>
 
@@ -767,6 +845,17 @@
     document.documentElement.dataset.dir=d;
     lastY=window.scrollY;
   },{passive:true});
+
+  /* 14. Flip cards — click to flip (mobile / accessibility) */
+  document.querySelectorAll('.flip-card').forEach(function(card){
+    card.addEventListener('click',function(){card.classList.toggle('flipped');});
+    card.addEventListener('keydown',function(e){
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();card.classList.toggle('flipped');}
+    });
+    card.setAttribute('tabindex','0');
+    card.setAttribute('role','button');
+    card.setAttribute('aria-label','Tap to flip card');
+  });
 })();
 </script>
 </body>
