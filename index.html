@@ -262,10 +262,13 @@
   .flip-card .flip-inner{position:relative;width:100%;height:100%;min-height:330px;
     transition:transform .95s cubic-bezier(.62,.04,.27,1.05),filter .9s;transform-style:preserve-3d}
   /* Only auto-flip on real hover (mouse/trackpad). Touch devices use .flipped (tap). */
+  .flip-card{transition:filter .5s ease}
   @media (hover:hover){
-    .flip-card:hover .flip-inner{transform:rotateY(180deg);filter:drop-shadow(0 30px 50px rgba(108,140,255,.35))}
+    .flip-card:hover .flip-inner{transform:rotateY(180deg)}
+    .flip-card:hover{filter:drop-shadow(0 30px 50px rgba(108,140,255,.35))}
   }
-  .flip-card.flipped .flip-inner{transform:rotateY(180deg);filter:drop-shadow(0 30px 50px rgba(108,140,255,.35))}
+  .flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+  .flip-card.flipped{filter:drop-shadow(0 30px 50px rgba(108,140,255,.35))}
   .flip-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;
     padding:22px 22px 18px;border:1px solid var(--stroke);border-radius:20px;
     background:linear-gradient(160deg,rgba(20,26,48,.96),rgba(13,17,36,.99));
@@ -540,7 +543,7 @@
     <div class="clients">
       <span>Expedia Group</span>
       <span>Atlassian</span>
-      <span>adidas</span>
+      <span>Adidas</span>
     </div>
   </div>
 
@@ -571,7 +574,7 @@
   <h2 class="sec reveal">Data Engineer who ships <span class="shimmer">reliable data at scale</span></h2>
   <p class="sec-sub reveal">
     I'm a Data Engineer at <b>EPAM Systems</b> with <b>2+ years</b> of hands-on experience building and migrating
-    production Spark/Scala ETL pipelines for <b>Expedia, Atlassian, and adidas</b>. I move large data estates
+    production Spark/Scala ETL pipelines for <b>Expedia, Atlassian, and Adidas</b>. I move large data estates
     to the cloud with <b>zero data loss</b>, fix data governance at enterprise scale, and automate the boring
     parts with Python — turning messy legacy systems into clean, governed, fast data platforms.
   </p>
@@ -705,10 +708,10 @@
     </div>
     <div class="tl-item reveal">
       <div class="when">OCT 2024 — JAN 2025</div>
-      <h3>Data Engineer · adidas</h3>
+      <h3>Data Engineer · Adidas</h3>
       <div class="where">B2B Data Domain (Lakehouse) · via EPAM</div>
       <ul>
-        <li>Integrated SAP S/4HANA data into the adidas Lakehouse using Databricks &amp; Delta Lake deletion vectors.</li>
+        <li>Integrated SAP S/4HANA data into the Adidas Lakehouse using Databricks &amp; Delta Lake deletion vectors.</li>
         <li>Reduced cluster cost by right-sizing and tuning job configurations, backed by performance testing.</li>
       </ul>
     </div>
